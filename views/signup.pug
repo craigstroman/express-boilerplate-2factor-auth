@@ -1,0 +1,40 @@
+extends partials/base.pug
+
+block pageSpecificCSS
+
+block content
+  div(class='row')
+    div(class='col-md-12')
+      h1(class='text-center') Signup 
+  hr
+
+  form(action='/join' method='post' class='needs-validation' novalidate)
+    div(class='form-group row')
+      label(for='first_name' class='col-md-2 col-form-label') First Name:
+      div(class='col-md-10')
+        input(type='text' name='first_name' id='first_name' class='form-control' placeholder='First Name' required)
+        div(class='invalid-feedback') Please provide a first name.
+    div(class='form-group row')
+      label(for='last_name' class='col-md-2 col-form-label') Last Name:
+      div(class='col-md-10')
+        input(type='text' name='last_name' id='last_name' class='form-control' placeholder='Last Name' required)      
+        div(class='invalid-feedback') Please provide a last name.
+    div(class='form-group row')
+      label(for='email' class='col-md-2 col-form-label') Email:
+      div(class='col-md-10')
+        input(type='email' name='email' id='email' class='form-control' placeholder='Email'  required) 
+        div(class='invalid-feedback') Please provide a email address.
+    div(class='form-group row')
+      label(for='password' class='col-md-2 col-form-label') Password:
+      div(class='col-md-10')
+        input(type='password' name='password' id='password' class='form-control' placeholder='Password' required)  
+        div(class='invalid-feedback') Please provide a password. 
+    div(class='form-group row')
+      div(class='col-md-1')      
+        button(type='submit' class='btn btn-primary') Sign Up &nbsp;
+      div(class='col-md-1') 
+        button(type='reset' class='btn btn-danger') Reset
+ 
+
+block pageSpecificScripts
+  script(src='/static/js/validation.js')

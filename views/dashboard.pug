@@ -1,0 +1,19 @@
+extends partials/base.pug
+
+block pageSpecificCSS
+
+block content
+  div(class='row')
+    div(class='col-md-12')
+      h1(class='text-center') You are now logged in
+  hr
+
+  div(class='row')
+    div(class='col-md-12 text-center') Welcome, 
+      a(href=`mailto: ${email}` target='_blank') #{firstName} #{lastName} 
+
+  div(class='row')
+    div(class='col-md-12 text-center')
+      a(href='/logout') Logout
+
+block pageSpecificScripts

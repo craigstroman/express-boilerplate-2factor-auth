@@ -1,0 +1,26 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content=content)
+    title #{title}
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css')
+    block pageSpecificCSS
+  body
+    <!--[if IE]>
+      p(class="browserupgrade") You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.
+    <![endif]-->
+    
+    div(class='container-fluid')
+      header
+        div(class='row')
+          div(class='col-md-12')
+            h1(class='text-center')
+              a(href='http://localhost:8081') Welcome To The Site
+            hr
+      block content
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js')
+  block pageSpecificScripts
