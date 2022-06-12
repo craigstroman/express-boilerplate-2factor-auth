@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import passport from 'passport';
 import models from '../models/index';
 
 const User = models.User;
