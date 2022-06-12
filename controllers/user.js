@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import passport from 'passport';
 import models from '../models/index';
 
 const User = models.User;
@@ -34,16 +35,19 @@ export const join = async (req, res) => {
 
 export const login = (req, res) => {
   const { user } = req;
+  const { first_name, last_name, email } = user[0][0];
 
-  res.json(user);
+  res.render('dashboard', { first_name, last_name, email });
 };
 
 export const logout = (req, res) => {
   req.logout();
 
-  res.render('logout', {
-    title: req.app.locals.title,
-    content: req.app.locals.content,
-    path: req.path,
+  req.session.destroy(function (err) {
+    res.render('logout', {
+      title: req.app.locals.title,
+      content: req.app.locals.content,
+      path: req.path,
+    });
   });
 };

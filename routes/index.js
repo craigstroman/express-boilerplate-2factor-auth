@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import { indexPage, loginPage, signupPage, dashboardPage } from '../controllers/index';
 import { login, logout, join } from '../controllers/user';
 
@@ -14,7 +15,7 @@ router.route('/dashboard').get(dashboardPage);
 
 router.route('/join').post(join);
 
-router.route('/signin').post(login);
+router.route('/signin').post(passport.authenticate('local'), login);
 
 router.route('/logout').get(logout);
 

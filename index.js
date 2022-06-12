@@ -17,6 +17,13 @@ const app = express();
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'pug');
 
+// public directory for scripts, images, etc.
+app.use('/static', express.static('public'));
+
+// constant variables for use on views
+app.locals.title = 'Express Boilerplate';
+app.locals.description = 'A Simple Express Boilerplate';
+
 // bodyParser setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,13 +33,6 @@ auth(passport); // pass passport for configuration
 app.use(session({ secret: process.env.SECRET }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// public directory for scripts, images, etc.
-app.use('/static', express.static('public'));
-
-// constant variables for use on views
-app.locals.title = 'Express Boilerplate';
-app.locals.description = 'A Simple Express Boilerplate';
 
 app.use(router);
 
