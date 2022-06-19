@@ -27,16 +27,15 @@ export const signupPage = (req, res) => {
 };
 
 export const dashboardPage = (req, res) => {
-  if (req.session.isAuthenticated) {
+  if (req.session.email) {
     res.render('dashboard', {
       title: req.app.locals.title,
       content: req.app.locals.content,
       path: req.path,
-      firstName: req.session.firstName,
-      lastName: req.session.lastName,
+      first_name: req.session.firstName,
+      last_name: req.session.lastName,
       email: req.session.email,
     });
-    res.redirect('/dashboard');
   } else {
     res.redirect('/login');
   }

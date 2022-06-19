@@ -1,0 +1,22 @@
+extends partials/base.pug
+
+block pageSpecificCSS
+
+block content
+  div(class='row')
+    div(class='col-md-12')
+      h1(class='text-center') Login - Enter 2 Factor Athentication
+  hr
+
+  form(action='/verify-2fa' method='post')
+    div(class='form-group row')
+        label(for='first_name' class='col-md-2 col-form-label') Code:
+        div(class='col-md-10')
+            input(type='text' name='code' id='code' class='form-control' placeholder='Code' autocomplete="off" required)
+            div(class='invalid-feedback') Please provide a code.
+    div(class='form-group row')
+        div(class='col-md-12 text-center') 
+             button(type='submit' class='btn btn-primary') Submit  
+
+
+block pageSpecificScripts

@@ -6,9 +6,8 @@ import models from '../models/index';
 const User = models.User;
 
 export const join = async (req, res) => {
-  console.log('join: ');
   const secret = authenticator.generateSecret();
-  const { body } = req;
+  const { body, session } = req;
   const { first_name, last_name, email, password } = body;
   const encryptedPassword = await bcrypt.hash(password, 5);
 
@@ -28,8 +27,11 @@ export const join = async (req, res) => {
           throw err;
         }
 
-        req.session.qr = url;
-        req.session.email = email;
+        session.qr = url;
+        session.email = email;
+        session.firstName = first_name;
+        session.lastName = last_name;
+
         res.redirect('/sign-up-2fa');
       });
     })
@@ -53,14 +55,60 @@ export const create2FA = (req, res) => {
 };
 
 export const signup2FA = (req, res) => {
-  if (!req.session.email) {
+  const { body, session } = req;
+  const { code } = body;
+  const { email } = session;
+
+  if (!email) {
     return res.redirect('/');
   }
 
-  const email = req.session.email;
-  const code = req.body.code;
+  const validate2FA = verifyLogin(email, code, req, res, '/sign-up-2fa');
 
-  verifyLogin(email, code, req, res, '/sign-up-2fa');
+  if (validate2FA) {
+    res.redirect('/dashboard');
+  }
+};
+
+export const login = (req, res) => {
+  const { user, session } = req;
+  const { first_name, last_name, email } = user[0][0];
+
+  if (user) {
+    session.firstName = first_name;
+    session.lastName = last_name;
+    session.email = email;
+
+    res.render('2fa');
+  } else {
+    res.render('login');
+  }
+};
+
+export const verify2Factor = async (req, res) => {
+  const { body, session } = req;
+  const { code } = body;
+  const { email } = session;
+
+  const validateLogin = await verifyLogin(email, code, req, res, '/signin');
+
+  if (validateLogin) {
+    res.redirect('dashboard');
+  } else {
+    res.render('login');
+  }
+};
+
+export const logout = (req, res) => {
+  req.session.destroy(function (err) {
+    res.render('logout', {
+      title: req.app.locals.title,
+      content: req.app.locals.content,
+      path: req.path,
+    });
+  });
+
+  req.logout();
 };
 
 export const verifyLogin = async (email, code, req, res, failUrl) => {
@@ -74,28 +122,10 @@ export const verifyLogin = async (email, code, req, res, failUrl) => {
     if (!authenticator.check(code, secret)) {
       return res.redirect(failUrl);
     }
-
-    res.redirect('/dashboard');
+    return true;
   } catch (err) {
     console.log('error: ', error);
+
+    return false;
   }
-};
-
-export const login = (req, res) => {
-  const { user } = req;
-  const { first_name, last_name, email } = user[0][0];
-
-  res.render('dashboard', { first_name, last_name, email });
-};
-
-export const logout = (req, res) => {
-  req.logout();
-
-  req.session.destroy(function (err) {
-    res.render('logout', {
-      title: req.app.locals.title,
-      content: req.app.locals.content,
-      path: req.path,
-    });
-  });
 };
