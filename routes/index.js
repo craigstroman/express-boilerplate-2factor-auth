@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { indexPage, loginPage, signupPage, dashboardPage } from '../controllers/index';
-import { login, logout, join } from '../controllers/user';
+import { login, logout, join, create2FA, signup2FA } from '../controllers/user';
 
 const router = new Router();
 
@@ -14,6 +14,10 @@ router.route('/signup').get(signupPage);
 router.route('/dashboard').get(dashboardPage);
 
 router.route('/join').post(join);
+
+router.route('/sign-up-2fa').get(create2FA);
+
+router.route('/sign-up-2fa').post(signup2FA);
 
 router.route('/signin').post(passport.authenticate('local'), login);
 
