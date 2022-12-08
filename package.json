@@ -1,7 +1,7 @@
 {
   "name": "express-boilerplate-2factor-auth",
   "version": "1.0.0",
-  "description": "An Express boilerplate with 2 factor authetication using PostgreSQL.",
+  "description": "An Express boilerplate with 2 factor authentication using PostgreSQL.",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon ./index.js --exec babel-node './index.js'"
